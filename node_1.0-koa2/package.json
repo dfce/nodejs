@@ -1,0 +1,49 @@
+{
+    "name" : "Mofei-Node-dev",
+    "version" : "1.0.0",
+    "description" : "Node MVC dve",
+    "main" : "app.js",
+    "scripts" :{
+        "start" : "node --use_strict app.js"
+    },
+    "keywords" :[
+        "koa2",
+        "koa-router",
+        "koa-body",
+        "nunjucks",
+        
+        "koa-json",
+        "koa-session",
+        "koa-logger",
+        "koa-onerror"
+    ],
+    "author" : "mofei",
+    "licenses" : "Apache-2.0",
+    "repository" : {
+        "type" : "git",
+        "url" : "https://github.com/dfce"
+    },
+    "dependencies" : {
+        "koa" : "2.4.1",
+        "koa-router" : "7.3.0",
+        "nunjucks" : "3.0.1",
+        "mime" : "2.0.3",
+        "mz" : "2.7.0",
+
+        "mysql" : "2.15.0",
+
+        "koa-json": "^2.0.2",
+        "koa-logger": "3.1.0",
+        "koa-onerror": "4.0.0",
+        "koa-session2":"2.2.5",
+        "ioredis":"3.2.1",
+        "request-ip":"2.0.2",
+        "koa-body":"2.5.0",
+
+
+        "request": "2.83.0",
+        "websocket" : "1.0.25" ,
+        "ws" : "3.3.2",
+        "xml2js": "0.4.19"
+    }
+}
