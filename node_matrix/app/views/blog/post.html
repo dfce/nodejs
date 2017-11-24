@@ -1,0 +1,306 @@
+{% extends "common/base-blog.html" %} {% block wrapper %}
+<!-- <link href="/public/static/bootstrap/css/plugins/summernote/summernote.css" rel="stylesheet">
+<link href="/public/static/bootstrap/css/plugins/summernote/summernote-bs3.css" rel="stylesheet"> -->
+<link href="/public/static/summernote/summernote.css" rel="stylesheet">
+
+
+        <div class="wrapper wrapper-content">
+            <div class="container">
+                <div class="row animated">
+                    <div class="col-md-4">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>个人中心</h5>
+                            </div>
+                            <div>
+                                <div class="ibox-content no-padding border-left-right">
+                                    <img alt="image" class="img-responsive" src="{{UserInfo.pic}}">
+                                </div>
+                                <div class="ibox-content profile-content">
+                                    <h4><strong>{{ UserInfo.nick_name }}</strong></h4>
+                                    <p><i class="fa fa-map-marker"></i> {{UserInfo.province}} {{UserInfo.city}} {{UserInfo.area}}</p>
+                                    <h5>
+                                        关于我
+                                    </h5>
+                                    <p>
+                                        {{UserInfo.briefing}}
+                                    </p>
+                                    <div class="row m-t-lg">
+                                        <div class="col-md-4">
+                                            <span class="bar">5,3,9,6,5,9,7,3,5,2</span>
+                                            <h5>发帖：<strong>169</strong></h5>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <span class="line">5,3,9,6,5,9,7,3,5,2</span>
+                                            <h5>积分: <strong>28</strong></h5>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <span class="bar">5,3,2,-1,-3,-2,2,3,5,2</span>
+                                            <h5>好友： <strong>240</strong></h5>
+                                        </div>
+                                    </div>
+                                    <div class="user-button">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <button type="button" class="btn btn-primary btn-sm btn-block btn-blogpost"><i class="fa fa-envelope"></i> 发帖</button>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <button type="button" class="btn btn-default btn-sm btn-block btn-userinfo"><i class="fa fa-user"></i> 修改资料</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-8">
+
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>发表新帖：</h5>
+                                <!-- <button id="edit" class="btn btn-primary btn-xs m-l-sm" onclick="edit()" type="button">编辑</button>
+                                <button id="save" class="btn btn-primary  btn-xs" onclick="save()" type="button">保存</button> -->
+                                <div class="ibox-tools">
+                                    <a class="collapse-link">
+                                        <i class="fa fa-chevron-up"></i>
+                                    </a>
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="form_editors.html#">
+                                        <i class="fa fa-wrench"></i>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-user">
+                                        <li><a href="form_editors.html#">Config option 1</a>
+                                        </li>
+                                        <li><a href="form_editors.html#">Config option 2</a>
+                                        </li>
+                                    </ul>
+                                    <a class="close-link">
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            
+                            <div class="ibox-content no-padding">
+
+                                <form method="post" class="form-horizontal" enctype="multipart/form-data" id="post_send">
+
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">标题：</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control">
+                                            <span class="help-block m-b-none">标题不超过200字</span>
+                                        </div>
+                                    </div>
+                                    
+
+
+                                    <div class="hr-line-dashed"></div>
+                                    <!-- <div class="form-group">
+                                        <label class="col-sm-2 control-label">内容：</label>
+                                    </div> -->
+                                    <div class="click2edit wrapper p-md"></div>
+                                     <div class="form-group"> 
+                                        <!-- <label class="col-sm-1 control-label"></label> -->
+                                         <div class="col-sm-11"> 
+                                            <span class="help-block m-b-none"></span>
+                                         </div> 
+                                     </div> 
+
+
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group"><label class="col-sm-2 control-label">类型：</label>
+                                        <div class="col-sm-10"><select class="form-control m-b" name="account">
+                                            {% for ptype in postType %}
+                                            <option value="{{ptype.id}}">{{ptype.post_tname}}</option>
+                                            {% endfor%}
+                                        </select>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+
+                                    <div class="form-group">
+                                        <div class="col-sm-4 col-sm-offset-2">
+                                            <button class="btn btn-white" type="submit">取消</button>
+                                            <button class="btn btn-primary" type="submit">发表</button>
+                                        </div>
+                                    </div>
+                                </form>
+
+
+
+                                
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 广告预留位 -->
+        <div id="small-chat" class="col-md-2" style="display:block;border:1px solid #e7eaec;top:100px;bottom:150px;">
+        <!--<div id="right-sidebar" class="col-md-2" style="display:block;border:1px solid red;">-->
+                广告位预留中...
+     
+        </div>
+        
+          
+        <!-- footer -->
+        <div class="footer">
+            <div class="pull-right">
+                This JavaScript course is created by <a target="_blank" href="https://github.com/dfce">@Mofei</a>.
+            </div>
+            <div>
+                <strong>@Copyright</strong> 
+                <a target="_blank" href="/home/index">Website</a> - 
+                <a target="_blank" href="https://github.com/dfce">GitHub</a> - 
+                <a target="_blank" href="/blog/index">Weibo</a>               
+            </div>
+        </div>
+
+        </div>
+        </div>
+
+
+    <!-------------------------------------------BootStrap <START> ------------------------------------------------->
+    <!-- Mainly scripts -->
+    <script src="/public/static/bootstrap/js/jquery-2.1.1.js"></script>
+    <script src="/public/static/bootstrap/js/bootstrap.js"></script>
+    <script src="/public/static/bootstrap/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="/public/static/bootstrap/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="/public/static/bootstrap/js/inspinia.js"></script>
+    <script src="/public/static/bootstrap/js/plugins/pace/pace.min.js"></script>
+
+     <!-- SUMMERNOTE -->
+    <!-- <script src="/public/static/bootstrap/js/plugins/summernote/summernote.min.js"></script> -->
+    <!-- <script src="/public/static/summernote/summernote.min.js"></script> -->
+    <script src="/public/static/summernote/summernote.js"></script>
+    <script src="/public/static/summernote/lang/summernote-zh-CN.js"></script>
+    <!-------------------------------------------BootStrap <END> ------------------------------------------------->
+
+
+    <!-------------------------------------------登录、退出 JS START----------------------------------------------->
+    <!-- Sweet alert -->
+    <script src="/public/static/bootstrap/js/plugins/sweetalert/sweetalert.min.js"></script>  
+    <!-- Sweet Alert -->
+    <link href="/public/static/bootstrap/css/plugins/sweetalert/sweetalert.css" rel="stylesheet"> 
+
+    <!-- verifyJs fun -->
+    <script src="/public/static/js/mf_public_verification.js"></script>
+
+    <!-- login、reg common  js -->
+    <script src="/public/static/js/view/index.js"></script>
+    <!-------------------------------------------登录、退出 JS    END --------------------------------------------->
+
+
+    
+
+    <!-- Peity  数据图层【无大用】 -->
+    <script src="/public/static/bootstrap/js/plugins/peity/jquery.peity.min.js"></script>
+
+    <!-- Peity -->
+    <script src="/public/static/bootstrap/js/demo/peity-demo.js"></script>
+
+
+        <script>
+        $(document).ready(function(){
+
+            summernote($('.click2edit'));
+
+            // from post
+            $('#post_send .btn.btn-primary').click(function(){
+                
+            });
+        
+       });
+
+       // create summernote
+       var summernote = function ( obj ) {
+             obj.summernote({
+                height: 500,                 // set editor height
+                minHeight: 400,              // set minimum height of editor
+                maxHeight: 500,              // set maximum height of editor
+                lang: 'zh-CN',               // default: 'en-US'
+                focus: true,                 // set focus to editable area after initializing summernote
+                placeholder: '在这里添加内容...',
+                toolbar: [  
+                    ['style', ['clear', 'bold', 'italic', 'underline', 'word']],  
+                    ['font', ['fontname', 'fontsize', 'strikethrough', 'superscript', 'subscript']],  
+                    ['color', ['color']],  
+                    ['para', ['ul', 'ol', 'paragraph', 'style', 'height']],  
+                    ['insert', ['table', 'picture', 'hr']],  
+                    ['mybutton', ['empty', 'undo', 'redo']],  
+                    ['misc', ['fullscreen', 'codeview', 'help']]  
+                ],  
+                buttons: {empty: EmptyButton, word: CleanWordButton},
+                callbacks: {  
+                    onPaste: function (ne) { 
+                        // @desc :: 清除粘贴、复制样式 一 ： 
+                        var bufferText = ((ne.originalEvent || ne).clipboardData || window.clipboardData).getData('Text/plain');  
+                        //    ne.preventDefault();    
+                        ne.preventDefault ? ne.preventDefault() : (ne.returnValue = false);  
+                        // Firefox fix  
+                        setTimeout(function () {  
+                            document.execCommand("insertText", false, bufferText);  
+                        }, 10);  
+                        /*  */  
+                    }  
+                }
+            });
+
+            $('.note-group-image-url').hide(); // 隐藏img url     
+            obj.summernote('code', '<p><br></p>');   
+            // obj.summernote('fullscreen.toggle');  
+       }
+
+       // custom button  
+        var EmptyButton = function (context) {  
+            var ui = $.summernote.ui;  
+            var button = ui.button({  
+                contents: '<i class="note-icon-trash"/>',  
+                tooltip: '清除全部内容',  
+                click: function () {  
+                    context.invoke('editor.empty');  
+                }  
+            });  
+            return button.render();  
+        };  
+
+        // @desc :: 清除粘贴、复制样式 二 ： 
+        var CleanWordButton = function (context) {  
+            var ui = $.summernote.ui;  
+            var button = ui.button({  
+                contents: '<i class="note-icon-square"/>',  
+                tooltip: '清除Word格式',  
+                click: function () {  
+                    //  清除img的wrap元素  
+                    var str = context.invoke('code');  
+                    str = CleanPastedHTML(str); //  class="hidden"  
+                    $('.container').append('<div id="tmp">' + str + '</div>');  
+                    $('#tmp table img').unwrap( );  
+                    str = $('#tmp').html();  
+                    str = CleanPastedHTML(str); //  class="hidden"  
+                    $('#tmp').remove();  
+                    context.invoke('code', str);  
+                }  
+            });  
+            return button.render();  
+        }; 
+        
+        var edit = function() {
+            summernote($('.click2edit'));
+        };
+        var save = function() {
+            var aHTML = $('.click2edit').summernote('code'); //save HTML If you need(aHTML: array).
+            $('.click2edit').summernote('destroy');
+        };
+    </script>
+
+</body>
+</html>
+{% endblock %}

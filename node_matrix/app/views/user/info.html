@@ -1,0 +1,443 @@
+{% extends "common/base-blog.html" %} {% block wrapper %}
+<link href="/public/static/bootstrap/css/plugins/cropper/cropper.min.css" rel="stylesheet">
+        <div class="wrapper wrapper-content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>个人中心： <small>个人资料查看修改.</small></h5>
+                                <div class="ibox-tools">
+                                    <a class="collapse-link">
+                                        <i class="fa fa-chevron-up"></i>
+                                    </a>
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="form_basic.html#">
+                                        <i class="fa fa-wrench"></i>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-user">
+                                        <li><a href="form_basic.html#">Config option 1</a>
+                                        </li>
+                                        <li><a href="form_basic.html#">Config option 2</a>
+                                        </li>
+                                    </ul>
+                                    <a class="close-link">
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="ibox-content" id="from-userinfo" >
+                                <div class="form-horizontal form">
+                                <form id="from-userinfo" action="/user/upDate" method="post" enctype="multipart/form-data"> <!--class="form-horizontal">-->
+                                    <!-- user_name -->
+                                    <div class="form-group"><label class="col-lg-2 control-label">用户名：</label>
+                                        <div class="col-lg-10">
+                                            <input type="text" name="user_name" value="{{UserInfo.user_name}}" disabled="" placeholder="" class="form-control">
+                                            <span class="help-block m-b-none">用户名注册后不可被修改.</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="hr-line-dashed"></div>
+
+
+
+                                    <!-- full_name -->
+                                    <div class="form-group"><label class="col-sm-2 control-label">姓名 / 昵称：</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" name="full_name" value="{{UserInfo.nick_name}}" class="form-control">
+                                            <span class="help-block m-b-none">请为自己取一个响亮的称号；非必填</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="hr-line-dashed"></div>
+
+
+                                    <!-- pic -->
+                                    <div class="form-group"><label class="col-sm-2 control-label">头像：</label>
+                                        <div class="col-sm-10">
+   
+                                            <div class="col-md-6">
+                                                <div class="image-crop colmd-5">
+                                                    <img id="crop-image" src="">
+                                                </div>
+  
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h4>预览：</h4>
+                                                <div class="img-preview img-preview-sm">
+                                                    <img id="u_pic" src="{{UserInfo.pic}}">
+                                                </div>
+                          
+
+                                                <h4>Comon method</h4>
+                                                <p id="showMesage">
+                                                    你可以上传新的图片到裁剪框，并轻松下载新裁剪的新图像.
+                                                </p>
+                                                <div class="btn-group">
+                                                    <label class="btn btn-warning btn-upload" for="inputImage" title="Upload iamge file">
+                                                        <input type="file" name="file" id="inputImage" class="hide">
+                                                        选择图片
+                                                    </label>
+                                                    <!--<label title="Donload image" id="upload" class="btn btn-primary">上传</label>-->
+                                                    <label title="Donload image" id="download" class="btn btn-default"><a>下载</a></label>
+                                                </div>
+                                                <h4>常见选项</h4>
+                                                <p>
+                                                    你可以操作的选项： <code>$({image}).cropper(options)</code>
+                                                </p>
+                                                <div class="btn-group">
+                                                    <button class="btn btn-white" id="zoomIn" type="button">放大</button>
+                                                    <button class="btn btn-white" id="zoomOut" type="button">缩小</button>
+                                                    <button class="btn btn-white" id="rotateLeft" type="button">左旋</button>
+                                                    <button class="btn btn-white" id="rotateRight" type="button">右旋</button>
+                                                    <!--<button class="btn btn-warning" id="setDrag" type="button">New crop</button>-->
+                                                </div>
+                                            </div>
+
+                                            <span class="help-block m-b-none">请上传；非必填</span>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+
+
+                                    <!-- password -->
+                                    <div class="form-group"><label class="col-sm-2 control-label">新密码：</label>
+                                        <div class="col-sm-10">
+                                            <input type="password" name="password" value="" class="form-control">
+                                            <span class="help-block m-b-none">新密码为空时原密码不变；非必填</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="hr-line-dashed"></div>
+
+                                    <!-- repass -->
+                                    <div class="form-group"><label class="col-sm-2 control-label">重复密码：</label>
+                                        <div class="col-sm-10">
+                                            <input type="password" name="repass" value="" class="form-control">
+                                            <span class="help-block m-b-none">非必填</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="hr-line-dashed"></div>
+
+
+                                    <!-- email -->
+                                    <div class="form-group"><label class="col-sm-2 control-label">邮箱</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" name="email" value="{{UserInfo.email}}" class="form-control">
+                                            <span class="help-block m-b-none">非必填</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="hr-line-dashed"></div>
+
+
+                                    <!-- phone_num -->
+                                    <div class="form-group"><label class="col-sm-2 control-label">电话：</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" name="telephone" value="{{UserInfo.telephone}}" class="form-control">
+                                            <span class="help-block m-b-none">非必填</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="hr-line-dashed"></div>
+
+                                    
+                                    <!-- sex -->
+                                    <div class="form-group"><label class="col-sm-2 control-label">性别：</label>
+                                        <div class="col-sm-10 radio-sex">
+                                            <label class="checkbox-inline"> <input name="sex" type="radio" value="0" id="inlineCheckbox1"> 保密 </label> 
+                                            <label class="checkbox-inline"> <input name="sex" type="radio" value="1" id="inlineCheckbox2"> 男 </label> 
+                                            <label class="checkbox-inline"> <input name="sex" type="radio" value="2" id="inlineCheckbox3"> 女 </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="hr-line-dashed"></div>
+
+                                    
+                                    <!-- address -->
+                                    <div class="form-group"><label class="col-sm-2 control-label">地址：</label>
+                                        <div class="col-sm-10 area-select">
+                                                <div class="col-lg-4 m-l-n"><select class="form-control region" name="province" id="province">
+                                                    <option>请选择</option>
+                                                </select></div>
+                                                <div class="col-lg-4 m-l-n"><select class="form-control region" name="city">
+                                                    <option>请选择</option>
+                                                </select></div>
+                                                <div class="col-lg-4 m-l-n"><select class="form-control region" name="area">
+                                                    <option>请选择</option>
+                                                </select></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="hr-line-dashed"></div>
+
+
+                                    <!-- desc -->
+                                    <div class="form-group"><label class="col-sm-2 control-label">个人简介：</label>
+                                        <div class="col-sm-10">
+                                            <textarea name="briefing" class="form-control" placeholder="写点什么...">{{UserInfo.briefing}}</textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="hr-line-dashed"></div>
+                                </form>
+                                    <div class="form-group">
+                                        <div class="col-sm-4 col-sm-offset-2">
+                                            <button class="btn btn-default">取消</button>
+                                            <button class="btn btn-primary">保存修改</button>
+                                        </div>
+                                    </div>
+                                <!-- </form> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 广告预留位 -->
+        <div id="small-chat" class="col-md-2" style="display:block;border:1px solid #e7eaec;top:100px;bottom:150px;">
+        <!--<div id="right-sidebar" class="col-md-2" style="display:block;border:1px solid red;">-->
+                广告位预留中...
+     
+        </div>
+        
+          
+        <!-- footer -->
+        <div class="footer">
+            <div class="pull-right">
+                This JavaScript course is created by <a target="_blank" href="https://github.com/dfce">@Mofei</a>.
+            </div>
+            <div>
+                <strong>@Copyright</strong> 
+                <a target="_blank" href="/home/index">Website</a> - 
+                <a target="_blank" href="https://github.com/dfce">GitHub</a> - 
+                <a target="_blank" href="/blog/index">Weibo</a>               
+            </div>
+        </div>
+
+        </div>
+        </div>
+
+
+
+    <!-- Mainly scripts -->
+    <script src="/public/static/bootstrap/js/jquery-2.1.1.js"></script>
+    <script src="/public/static/bootstrap/js/bootstrap.js"></script>
+    <script src="/public/static/bootstrap/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="/public/static/bootstrap/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="/public/static/bootstrap/js/inspinia.js"></script>
+    <script src="/public/static/bootstrap/js/plugins/pace/pace.min.js"></script>
+
+
+    <!-- Sweet alert -->
+    <script src="/public/static/bootstrap/js/plugins/sweetalert/sweetalert.min.js"></script>  
+    <!-- Sweet Alert -->
+    <link href="/public/static/bootstrap/css/plugins/sweetalert/sweetalert.css" rel="stylesheet"> 
+
+    <!-- verifyJs fun -->
+    <script src="/public/static/js/mf_public_verification.js"></script>
+
+    <!-- login、reg common  js -->
+    <script src="/public/static/js/view/index.js"></script>
+
+
+
+    <!-- Peity -->
+    <!--<script src="/public/static/bootstrap/js/plugins/peity/jquery.peity.min.js"></script>-->
+
+    <!-- Peity -->
+    <!--<script src="/public/static/bootstrap/js/demo/peity-demo.js"></script>-->
+
+    <!-- Image cropper -->
+    <script src="/public/static/bootstrap/js/plugins/cropper/cropper.js"></script>
+    <script src="/public/static/js/view/usercropper.js"></script>
+
+
+    <script>
+        $(document).ready(function(){
+
+            fn_isLogin ();
+
+            $('#from-userinfo .btn.btn-default').click(function(){
+               window.location.href = '/user/index';
+            });
+
+            // from 设置默认值
+            var u_sex = '{{UserInfo.sex}}' || 0;
+            $('.radio-sex .checkbox-inline')[u_sex].querySelector('input').click();
+            var u_provinces = '{{UserInfo.provinces}}';
+            u_provinces = u_provinces.split( ',');
+
+ 
+            var u_imgResouse = new Image();
+            u_imgResouse.src = $('#u_pic').attr('src');
+            u_imgResouse.width > u_imgResouse.height ? $('#u_pic').css({width : '100%'}) : $('#u_pic').css({height : '100%'});
+
+            
+
+            // getarea          
+            province_html( $('#province'), verifi_provinces(1) );
+            function province_html(obj,provinces){
+                var province_html = '<option value="" >请选择</option>';
+                for(var i = 0; i< provinces.length ; i++){
+                    province_html += '<option area_name="' + provinces[i].area_id + '" value="' + provinces[i].area_id + '">' + provinces[i].area_name + '</option>'; 
+                }				
+                obj.html(province_html);
+            }
+
+            //地区联动
+            $('.area-select .region').change(function(){
+                // 重置后续联动
+                var this_index = $('.area-select .region').index(this);
+                for(var i = 0; i < $('.area-select .region').length; i++) {
+                    if(i > this_index){
+                        $('.area-select .region')[i].innerHTML = '<option value="" >请选择</option>';
+                    }
+                }
+                setProvinces($(this));  
+
+            }).each(function(){
+                var this_index = $('.area-select .region').index(this);
+                $(this).val(u_provinces[this_index]);
+                setProvinces($(this));
+            });
+
+            function setProvinces (obj) {
+                var area_id = obj.val();
+                var next = obj.parent().next().find('select');
+                
+                if(next.html() == undefined) return false;
+                provinces = verifi_provinces(area_id);
+               
+                province_html( next, provinces );
+            }
+
+
+            /**
+             * @desc :: from 表单提交：
+             */
+            // 定义需要验证表单
+            var from_userinfo_input = [
+                $('#from-userinfo input[name="full_name"]'), 
+                $('#from-userinfo input[name="password"]'), 
+                $('#from-userinfo input[name="repass"]'), 
+                $('#from-userinfo input[name="email"]'),
+                $('#from-userinfo input[name="telephone"]'),
+            ];
+            fn_userInfo ();
+            $('#from-userinfo .btn.btn-primary').click(function(){
+               fn_userInfo (true);
+            });
+            function fn_userInfo ( up = false) {
+                
+                for (var i = 0; i < from_userinfo_input.length; i++ ){
+                    if(!$('#from-userinfo input[name="password"]').val()){
+                            if ( from_userinfo_input[i].val() == '' ) continue;
+                    }
+                    userDataVerify( from_userinfo_input[i].attr('name'), from_userinfo_input[i] );
+                }
+                var errLen = $('#from-userinfo .help-block.label-warning').length;
+
+                if ( fn_isLogin () && !errLen && up ) {
+                    var formData = new FormData();
+                    var CroppedCanvas = cropper['getCroppedCanvas']();
+                    if (CroppedCanvas) {
+                        var result = cropper.getCroppedCanvas({width:CroppedCanvas.width, height:CroppedCanvas.height, fillColor : '#fff'});
+
+                        // blob :: 
+                        var canvas_data = result.toDataURL("image/png");//返回的默认格式就是 image/png
+                        
+                        canvas_data = canvas_data.split(',')[1];
+                        canvas_data = window.atob(canvas_data);
+                        var ia = new Uint8Array(canvas_data.length);
+                        for (var i = 0; i < canvas_data.length; i++) {
+                            ia[i] = canvas_data.charCodeAt(i);
+                        };
+                        var blob = new Blob([ia], {type:"image/png"});
+
+                       
+                        formData.append('pic', blob);   
+                    // } else {
+                       formData.append('remOld', '{{UserInfo.pic}}');    
+                    }
+                    formData.append('full_name',  $('#from-userinfo input[name="full_name"]').val()); 
+                    formData.append('password',  $('#from-userinfo input[name="password"]').val()); 
+                    formData.append('repass',  $('#from-userinfo input[name="repass"]').val()); 
+                    formData.append('email',  $('#from-userinfo input[name="email"]').val()); 
+                    formData.append('telephone',  $('#from-userinfo input[name="telephone"]').val()); 
+                    formData.append('sex',  $('#from-userinfo input[name="sex"]:checked').val()); 
+                    formData.append('provinces',  $('#from-userinfo select[name="province"]').val() + ',' + $('#from-userinfo select[name="city"]').val() + ',' + $('#from-userinfo select[name="area"]').val()); 
+                    formData.append('briefing',  $('#from-userinfo textarea[name="briefing"]').val()); 
+                           
+
+                    $.ajax({
+                        url: '/user/upDate',
+						dataType:'json',
+						type: 'POST',
+						async: false,
+						data: formData,
+                        processData: false,
+                        contentType: false,
+						success:function(data){
+                            console.log('data : ' + data + '; ' + JSON.stringify(data));
+                            if (data && data.success) {
+                                swal({
+                                        title: "提示：",
+                                        text: "资料修改成功!",
+                                        showConfirmButton : false,
+                                        timer : 800,
+                                        type: "success"
+                                    },
+                                    function(){
+                                        window.location.reload();
+                                    });
+                            } else {
+                                swal({
+                                    title: "提示：",
+                                    text: data.msg,
+                                    type: "warning"
+                                });
+                            }
+						},
+                        error:function(err){
+                            swal({
+                                title: "提示：",
+                                text: err,
+                                type: "error"
+                            });
+                        }
+                    });
+                }
+            }
+
+            /**
+             * @desc 操作验证
+             */
+            function fn_isLogin () {
+                var isLogin = '{{userinfo}}',power = false;
+                if (!isLogin) {
+                    swal({
+                        title : "",
+                        text : "请先登录本站",
+                        type : "warning",
+                        showConfirmButton : true,
+                        confirmButtonText : "登录"
+                    }, function () {
+                        $("#userLogInModal").modal("show");
+                    });
+                } else { power = true}
+                return power;
+            }
+            
+            
+        });
+    </script>
+
+</body>
+
+</html>
+{% endblock %}
