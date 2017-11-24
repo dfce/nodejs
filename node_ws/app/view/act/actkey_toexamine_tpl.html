@@ -1,0 +1,157 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content='telephone=no' name='format-detection' />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover;">
+    <title>{{title}}</title>
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="../../public/static/css/site_global.css"/>
+    <link rel="stylesheet" type="text/css" href="../../public/static/css/____.css" id="pagesheet"/>
+    <script src="../../public/static/js/jquery-2.1.1.js"></script>
+
+</head>
+
+<body style="width:500px;margin:0 auto;margin-top:100px;">
+
+    <div class="clearfix page"><!-- column -->
+        <div class="position_content page_position_content">
+            <div class="clearfix colelem u986"><!-- group -->
+                <div class="shadow rounded-corners clearfix grpelem u1013"><!-- column -->
+                <div class="rounded-corners colelem u1024">
+                    <img src="../../public/static/img/group403x.png" width="600" height="200"/>
+                </div>
+                <div class="clearfix colelem pu1027"><!-- group -->
+                    <div class="rounded-corners grpelem u1027"><!-- simple frame --></div>
+                    <div class="clearfix grpelem pu1036-4"><!-- column -->
+                        <div class="clearfix colelem u1036-4"><!-- content -->
+                            <h1>队员：小喵咪</h1>
+                        </div>
+                        <div class="clearfix colelem u1042-4"><!-- content -->
+                            <h1>时间：12-12 15:13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 关卡：演武场</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="colelem u1030"><!-- simple frame --></div>
+                    <div class="clearfix colelem pu1045-4"><!-- group -->
+                        <div class="clearfix grpelem submit-btn u1045-4"><!-- content -->
+                        不通过
+                        </div>
+                        <div class="grpelem u1033"><!-- simple frame --></div>
+                        <div class="clearfix grpelem submit-btn u1051-4"><!-- content -->
+                        <p>通过</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="verticalspacer" data-offset-top="1280" data-content-above-spacer="1280" data-content-below-spacer="62"></div> -->
+        </div>
+    </div>
+
+    
+    <!-- Other scripts -->
+    <script>
+        $(function(){
+            // WS 通过 openid、活动码 绑定、拉取审核列表
+            var count = 0;
+            var ws = false;
+            ws = new WebSocket('ws://{{wsservice}}');
+
+            ws.onopen = function (){
+                // 初始化审核列表
+                var clientData = "{'user' : '{{clientData.user}}', 'actKey' : '{{clientData.actKey}}', 'type' : 'pull'}";
+                // var clientData = new Object({'user' : '{{clientData.user}}', 'actKey' : '{{clientData.actKey}}', 'type' : 'pull'});
+               
+                ws.send(clientData);
+            };
+
+            ws.onmessage = function (message) {
+                var msgObj = JSON.parse(message.data);
+                var html = setHtmlDom(msgObj.data);
+                $('body').html(html);
+                $('.commit_val_tpl').each(function(){
+                    $(this).click(function(){
+                        var room_posture_audit_id = $(this).attr('commit_val');
+                        var status = $(this).attr('commit_type');
+
+                        $.ajax({
+                            url: '/actlist',
+                            dataType:'json',
+                            type: 'POST',
+                            async: true,
+                            data: {r_id : room_posture_audit_id, status : status, code : '{{clientData.actKey}}'},
+                            // processData: false,
+                            // contentType: false,
+                            success:function(data){
+                                console.log(data);
+                                var clientData = "{'user' : '{{clientData.user}}', 'actKey' : '{{clientData.actKey}}', 'type' : 'pull'}";
+                                ws.send(clientData);
+                            },
+                            error: function(err) {
+                                console.log('err : ' + JSON.stringify(err, null, 2));
+                            }
+                        })
+                    })
+                })
+            }
+        })
+
+        function setHtmlDom ( userData ) {
+            /**
+             * 构造审核列表数据
+             */
+            var flag = eval(userData[0]) ? true : false;
+            var i = 0;
+            var imgpath = '{{clientData.imgpath}}';
+            var html = '';
+            if (userData) {
+                while( flag ){
+                    var userRes = eval(userData[i]);
+                    html += 
+                    '<div class="clearfix page">'+
+                        '<div class="position_content page_position_content">'+
+                            '<div class="clearfix colelem u986">'+
+                                '<div class="shadow rounded-corners clearfix grpelem u1013">'+
+                                '<div class="rounded-corners colelem u1024">'+
+                                    '<img src="' + imgpath + userRes.posture_image +'" width="600" height="200" style="border-radius: 15px 15px 0px 0px;"/>'+
+                                '</div>'+
+                                '<div class="clearfix colelem pu1027">'+
+                                    '<div class="rounded-corners grpelem u1027"></div>'+
+                                    '<div class="clearfix grpelem pu1036-4">'+
+                                        '<div class="clearfix colelem u1036-4">'+
+                                            '<h1>队员：' + userRes.nickname + '</h1>'+
+                                        '</div>'+
+                                        '<div class="clearfix colelem u1042-4">'+
+                                            '<h1>时间：' + userRes.create_date + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 关卡：' + userRes.line_spot_name + '</h1>'+
+                                        '</div>'+
+                                    '</div>'+
+                                '</div>'+
+                                '<div class="colelem u1030"></div>'+
+                                    '<div class="clearfix colelem pu1045-4">'+
+                                        '<div class="clearfix grpelem submit-btn u1045-4 commit_val_tpl" commit_val="' + userRes.room_posture_audit_id + '" commit_type="-1" >不通过</div>'+
+                                        '<div class="grpelem u1033"></div>'+
+                                        '<div class="clearfix grpelem submit-btn u1051-4 commit_val_tpl" commit_val="' + userRes.room_posture_audit_id + '" commit_type="2" ><p>通过</p></div>'+
+                                    '</div>'+
+                                '</div>'+
+                            '</div>'+
+                            '<div class="verticalspacer" data-offset-top="1280" data-content-above-spacer="1280" data-content-below-spacer="62"></div>'+
+                        '</div>'+
+                    '</div>';
+                    i++;
+                    if(!userData[i]) flag = false;
+                }
+            }
+            console.log('i=>' + i)
+            return html;
+        }
+    </script>    
+    
+</body>
+
+
+    
+</html>

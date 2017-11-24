@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+ <head>
+
+  <title>{{ title }}</title>
+    <!-- <meta charset="utf-8"> -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content='telephone=no' name='format-detection' />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover;">
+
+
+    <script src="../../public/static/js/jquery-2.1.1.js"></script>
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="../../public/static/css/site_global.css"/>
+    <link rel="stylesheet" type="text/css" href="../../public/static/css/index.css" id="pagesheet"/>
+</head>
+<body>
+
+    <div class="clearfix" id="page"><!-- column -->
+        <div class="position_content" id="page_position_content">
+            <div class="clearfix colelem" id="u413"><!-- column -->
+                <div class="clearfix colelem" id="pu454"><!-- group -->
+                    <div class="shadow rounded-corners grpelem" id="u454"><!-- simple frame --></div>
+                    <div class="form-grp clearfix grpelem" id="widgetu907"><!-- none box -->
+                    <div class="fld-grp clearfix grpelem" id="widgetu915" data-required="true"><!-- none box -->
+                        <span class="fld-input NoWrap actAsDiv clearfix grpelem" id="u916-4"><!-- content -->
+                            <input placeholder="请输入激活码" value="" class="wrapped-input" type="text" spellcheck="false" id="widgetu915_input" name="custom_U915" tabindex="1"/>
+                        </span>
+                    </div>
+
+                    <button class="submit-btn NoWrap rounded-corners clearfix grpelem" id="u919-4" type="submit" value="提交" tabindex="2"><!-- content -->
+                        <div style="margin-top:-25px;height:25px;"><p>提交</p></div>
+                    </button>
+                    </div>
+                </div>
+                <div class="clip_frame colelem" id="u444"><!-- image -->
+                    <img class="block" id="u444_img" src="../../public/static/img/group403x.png" alt="" width="178" height="310"/>
+                </div>
+            </div>
+            <!-- <div class="verticalspacer" data-offset-top="944" data-content-above-spacer="944" data-content-below-spacer="61"></div> -->
+        </div>
+    </div>
+
+    <!-- Other scripts -->
+    <script>
+        $(function(){
+            $('#u919-4').click(function(){
+                var actkey = $('#widgetu915_input').val();
+
+                if ( actkey.length > 0 ) {
+                    window.location = 'actlist?user={{UserInfo.user}}&actKey=' + actkey;
+                }else{
+                    alert('请填写活动码');
+                }
+            })
+        })
+    </script>
+</body>
+</html>

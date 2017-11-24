@@ -1,0 +1,133 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" id="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=0.5">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,maximum-scale=1.0,user-scalable=no;">
+
+    <title>{{title}}</title>
+    <link href="../../public/static/css/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <script src="../../public/static/js/jquery-2.1.1.js"></script>
+
+    <style>
+        #ipt-code{
+            position: absolute;
+            width:80%;  
+            height: 25px;
+            color: #B5B5B5;
+            margin-left:10%;
+        }
+         #ipt-code input {
+            position: absolute;
+            width:200px; 
+            height: 25px;
+            color: #B5B5B5;
+            min-height: 0px; 
+            text-align: center;
+            font-family: Helvetica, Helvetica Neue, Arial, sans-serif;
+            font-size: 20px;
+            margin-left:10%;
+            margin-top:-45px;
+            padding: 6px; 
+        } 
+        
+        
+        #sub-btn {
+            position:absolute;
+            margin-top:28px; 
+            margin-left:33%;
+        }
+        #sub-btn a {
+            display: block;
+            width: 100px;
+            height: 40px;
+            text-align: center;
+            line-height: 40px;  
+        }   
+        #u444 {
+            position:absolute;
+            margin-top:100px; 
+            margin-left:140px; 
+        }
+
+
+
+
+        .float-e-margins .btn {
+            margin-bottom: 5px;
+        }
+        .btn-rounded {
+            border-radius: 50px;
+        }
+        .btn-warning {
+            background-color: #f8ac59;
+            border-color: #f8ac59;
+            color: #FFFFFF;
+        }
+    </style>   
+</head>
+
+<body style="margin:0 auto;margin-top:100px;">
+	<!-- <div style="box-shadow:0px 0px 10px #888888;radius:20px 20px 20px 20px;">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div style="background-color:#CCCCCC;height:180px;border-radius:20px 20px 0 0;"> 
+                    <img clas='act_img' src="../../public/static/img/group403x.png" width='496' height="180">
+                </div>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                    <img src="../../public/images/backtotop.png" class="img-circle" style="margin-left:10px;margin-top:15px;width:50px;height:50px;"/>
+                </div>
+                <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" style="padding-left:30px;">
+                    <p style="margin-left:10px;margin-top:15px;font-weight:bold;">队员：XXX</p>
+                    <span style="margin-left:10px;margin-top:15px;">时间：12-12&nbsp;&nbsp;14:45</span>
+                    <span style="margin-left:10px;margin-top:15px;">关卡：XXX</span>					
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top:30px;">
+                    <table class="table table-bordered">
+                        <tr class="text-center">
+                            <td><strong style="color:red">不通过</strong></td>
+                            <td><strong style="color:green">&nbsp;&nbsp;&nbsp;&nbsp;通过</strong></td>
+                        </tr>
+                    </table>	
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <div class="row">
+        <div class="col-lg-6" id="ipt-code">
+            <input type="text" placeholder="请输入激活码" id="exampleInputEmail2" class="form-control" >
+        </div>
+        <div class="col-lg-6" id="sub-btn">
+            <a class="btn btn-warning btn-rounded" >提交</a>
+        </div>
+
+
+        <div class="col-lg-6" id="u444">
+            <img class="block" id="u444_img" src="../../public/static/img/group403x.png" alt="" width="178" height="310"/>
+        </div>
+    </div>
+    <!-- Other scripts -->
+    <script>
+        $(function(){
+            $('#sub-btn').click(function(){
+                var actkey = $('#exampleInputEmail2').val();
+
+                if ( actkey.length > 0 ) {
+                    window.location = 'actlist?user={{UserInfo.user}}&actKey=' + actkey;
+                }else{
+                    alert('请填写活动码');
+                }
+            })
+        })
+    </script>
+</body>
+</html>

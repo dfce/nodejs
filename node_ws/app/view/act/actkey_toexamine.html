@@ -1,0 +1,235 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" id="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=0.5">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,maximum-scale=1.0,user-scalable=no;">
+
+    <title>{{title}}</title>
+    <link href="../../public/static/css/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <script src="../../public/static/js/jquery-2.1.1.js"></script>
+
+    <style>
+        .row {
+             margin-right: 0px; 
+             margin-left: 0px; 
+             margin-top:50px;
+             height:380px;
+             border-radius: 15px;
+             box-shadow: 0px 0px 6px rgba(196,196,196,0.76);
+        }
+
+        .img-top {
+            /* border:1px solid red; */
+            border-radius: 15px 15px 0px 0px; 
+            box-shadow: 0px 0px 6px rgba(196,196,196,0.76);
+            background-color: #FFFFFF;
+        }
+        .img-left {
+            z-index: 5;
+            width: 76px;
+            height: 76px;
+            background-color: #A2FFD0;
+            border-radius: 50%;
+            position: absolute;
+            margin-left: 25px; 
+            margin-top: 25px; 
+            overflow: hidden;
+            display: none;
+        }
+
+        .data-info {
+            position: absolute; 
+            /* margin-left: 100px;  */
+            margin-left: 50px;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        .btn-div{
+            position:absolute;
+            width:100%;
+            margin-top: 130px;
+        }
+
+        .btn {
+            width:40%;
+            position:absolute;
+        }
+
+         .btn-danger {
+            margin-left: 4%;
+        } 
+        .btn-success {
+            margin-left: 50%;
+        }
+
+        /* #row-shade {
+            position: relative;
+            margin-top : 0px;
+            margin-left: 0px;
+            display: block;
+            width:100%;
+            height:100%;
+        } */
+
+        #row-shade {
+            background: #FFFFFF;
+            /* overflow-x: hidden;
+            overflow-y: hidden; */
+            /* opacity: 0.5; */
+            z-index: 2050 !important;
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 1050;
+            display: none; 
+            overflow: auto;  
+            width:100%;height: 100%;
+            -webkit-overflow-scrolling: touch;
+            outline: 0;
+        }
+
+    </style>
+
+</head>
+
+<body style="margin:0 auto;margin-top:100px;">
+<div id="wrapper">
+    <div class="row" >
+        <div class="col-lg-6 img-top">
+            <img clas='act_img' src="../../public/static/img/group403x.png" width='100%' height="180px">
+        </div>
+        <div class="col-lg-6 img-left">
+            <img clas='act_img' src="../../public/static/img/group403x.png" width='76' height="76">
+        </div>
+        <div class="col-lg-6 data-info">
+            <p><span>队员：</span><span>测试</span></p>
+            <p><span>关卡：</span><span>演武场</span></p>
+            <p><span>时间：</span><span>2017-11-23 10:21:11</span></p>
+        </div>
+
+        <div class="col-lg-6 btn-div">
+            <a class="btn btn-danger btn-rounded" >不通过</a>
+            <a class="btn btn-success btn-rounded" >通过</a>
+        </div>
+    </div>   
+</div>
+<div id="row-shade" ></div>
+
+    
+    
+    <!-- Other scripts -->
+    <script>
+        $(function(){
+            // WS 通过 openid、活动码 绑定、拉取审核列表
+            var count = 0;
+            var ws = false;
+            ws = new WebSocket('ws://{{wsservice}}');
+
+            ws.onopen = function (){
+                // 初始化审核列表
+                var clientData = "{'user' : '{{clientData.user}}', 'actKey' : '{{clientData.actKey}}', 'type' : 'pull'}";
+                // var clientData = new Object({'user' : '{{clientData.user}}', 'actKey' : '{{clientData.actKey}}', 'type' : 'pull'});
+               
+                ws.send(clientData);
+            };
+
+            ws.onmessage = function (message) {
+                var msgObj = JSON.parse(message.data);
+                var html = setHtmlDom(msgObj.data);
+                $('#wrapper').html(html);
+                $('.commit_val_tpl').each(function(){
+                    $(this).click(function(){
+                        var room_posture_audit_id = $(this).attr('commit_val');
+                        var status = $(this).attr('commit_type');
+
+                        $.ajax({
+                            url: '/actlist',
+                            dataType:'json',
+                            type: 'POST',
+                            async: true,
+                            data: {r_id : room_posture_audit_id, status : status, code : '{{clientData.actKey}}'},
+                            // processData: false,
+                            // contentType: false,
+                            success:function(data){
+                                console.log(data);
+                                var clientData = "{'user' : '{{clientData.user}}', 'actKey' : '{{clientData.actKey}}', 'type' : 'pull'}";
+                                ws.send(clientData);
+                            },
+                            error: function(err) {
+                                console.log('err : ' + JSON.stringify(err, null, 2));
+                            }
+                        })
+                    })
+                })
+
+                $('.posture-img').each(function(){
+                    $(this).click(function(){
+                        var showImg = '<img alt="点击关闭" src="'+ $(this).attr('src') +'" width="'+ window.screen.width +' height="'+ window.screen.height +'"/>';
+                        $('#wrapper').css({"overflow-y":"hidden"});
+                        $('#row-shade').css({display:"block"});
+                        $('#row-shade').html(showImg);
+                    })
+                })
+            }
+        })
+
+
+        $('#row-shade').click(function(){
+            $('#row-shade').html('').css({display:"none"});
+        })
+
+        function setHtmlDom ( userData ) {
+            /**
+             * 构造审核列表数据
+             */
+            var flag = eval(userData[0]) ? true : false;
+            var i = 0;
+            var imgpath = '{{clientData.imgpath}}';
+            var html = '';
+            if (userData) {
+                while( flag ){
+                    var userRes = eval(userData[i]);
+                    
+                    html += 
+                    '<div class="row" >'+
+                        '<div class="col-lg-6 img-top">'+
+                            '<img alt="点击放大" class="posture-img" src="' + imgpath + userRes.posture_image +'"  width="100%" height="180px">'+
+                        '</div>'+
+                        '<div class="col-lg-6 img-left">'+
+                            '<img src="../../public/static/img/group403x.png" width="76" height="76">'+
+                        '</div>'+
+                        '<div class="col-lg-6 data-info">'+
+                            '<p><span>队员：</span><span>' + userRes.nickname + '</span></p>'+
+                            '<p><span>关卡：</span><span>' + userRes.line_spot_name + '</span></p>'+
+                            '<p><span>时间：</span><span>' + userRes.create_date + '</span></p>'+
+                        '</div>'+
+
+                        '<div class="col-lg-6 btn-div">'+
+                            '<a class="btn btn-danger btn-rounded commit_val_tpl" commit_val="' + userRes.room_posture_audit_id + '" commit_type="-1" >不通过</a>'+
+                            '<a class="btn btn-success btn-rounded commit_val_tpl" commit_val="' + userRes.room_posture_audit_id + '" commit_type="2" >通过</a>'+
+                        '</div>'+
+                    '</div>';
+
+
+                    i++;
+                    if(!userData[i]) flag = false;
+                }
+            }
+            console.log('i=>' + i)
+            return html;
+        }
+    </script>    
+    
+</body>
+
+
+    
+</html>
